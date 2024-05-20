@@ -1,41 +1,87 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+﻿using System;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication3.Models
 {
     public class Table_1
     {
-        public static string con_string = "Server = tcp:cloud-vice-server.database.windows.net,1433;Initial Catalog = cloud - vice - database; Persist Security Info=False;User ID = LeeJames; Password=Stormy@16 MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30";
+        public static string con_string = "Server=tcp:st10311687server.database.windows.net,1433;Initial Catalog=ST10311687Database;Persist Security Info=False;User ID=LeeJames;Password=Stormy@16;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public static SqlConnection con = new SqlConnection(con_string);
-       
         public string Name { get; set; }
-        //public int ID { get; set; }
-
         public string Surname { get; set; }
-
         public string Email { get; set; }
+        public string Password { get; set; }
 
-        public int insert_User(Table_1 n)
+        public int InsertUser(Table_1 user)
         {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(con_string))
+                {
+                    string sql = "INSERT INTO Table_1 (userName, userSurname, userEmail, userPassword) VALUES (@Name, @Surname, @Email, @Password)";
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.Parameters.AddWithValue("@Name", user.Name ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Surname", user.Surname ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Email", user.Email ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Password", user.Password ?? (object)DBNull.Value);
 
-            string sql = "INSERT INTO userTable (userName, userSurname, userEmail) VALUES (@Name, @Surname, @Email)";
-            SqlCommand cmd = new SqlCommand(sql, con);
-            cmd.Parameters.AddWithValue("@Name", n.Name);
-            cmd.Parameters.AddWithValue("@Surname", n.Surname);
-            cmd.Parameters.AddWithValue("@Email", n.Email);
-            con.Open();
-            int rowsAffected = cmd.ExecuteNonQuery();
-            con.Close();
-            return rowsAffected;
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw  ex;
+            }
         }
-       /* public IActionResult Index()
-        {
-            return View();
-        }*/
-
     }
 }
+
+
+//using Microsoft.Extensions.Configuration.UserSecrets;
+//using System;
+//using System.Data.SqlClient;
+
+//namespace WebApplication3.Models
+//{
+//    public class Table_1
+//    {
+//        public static string con_string = "Server=tcp:st10311687server.database.windows.net,1433;Initial Catalog=ST10311687Database;Persist Security Info=False;User ID=LeeJames;Password=Stormy@16;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+//        public string Name { get; set; }
+//        public string Surname { get; set; }
+//        public string Email { get; set; }
+//        public string Password { get; set; }
+
+//        public int InsertUser(Table_1 user)
+//        {
+//            try
+//            {
+//                using (SqlConnection con = new SqlConnection(con_string))
+//                {
+//                    string sql = "INSERT INTO Table_1 (userName, userSurname, userEmail, userPassword) VALUES (@Name, @Surname, @Email, @Password)";
+//                    SqlCommand cmd = new SqlCommand(sql, con);
+//                    cmd.Parameters.AddWithValue("@Name", user.Name);
+//                    cmd.Parameters.AddWithValue("@Surname", user.Surname);
+//                    cmd.Parameters.AddWithValue("@Email", user.Email);
+//                    cmd.Parameters.AddWithValue("@Password", user.Password);
+
+//                    con.Open();
+//                    int rowsAffected = cmd.ExecuteNonQuery();
+//                    con.Close();
+//                    return rowsAffected;
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                throw ex;
+//            }
+
+//        }
+//    }
+//}
+
 

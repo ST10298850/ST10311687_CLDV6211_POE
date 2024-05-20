@@ -31,7 +31,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyWork">My Work</a>
                         </li>
+                        
                     </ul>
+                    <ul class="navbar-nav">
+                        @* @if (Context.Session.GetInt32("UserID") != null) *@
+                        
+                        </li class="nav-item">
+                        <form asp-controller="Home" asp-action="Login" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-link nav-link text-black-dark">Login</button>
+                        </form>
+                        </li> 
+                    </ul>
+                    </li class="nav-item">
+                    <form asp-controller="Home" asp-action="SignUp" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-link nav-link text-black-dark">Sign Up</button>
+                    </form>
+                    </li>
                 </div>
             </div>
         </nav>

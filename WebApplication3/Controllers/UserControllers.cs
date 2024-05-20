@@ -1,25 +1,86 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.AspNetCore.Mvc;
+//using WebApplication3.Models;
+
+//namespace WebApplication3.Controllers
+//{
+//    public class UserControllers : Controller
+//    {
+//        public Table_1 usrtbl = new Table_1();
+
+//        [HttpPost]
+//        public ActionResult SignUp(Table_1 user)
+//        {
+//            var result = usrtbl.InsertUser(user);
+//            if (result > 0)
+//            {
+//                TempData["SignUpSuccess"] = "You have signed up successfully!";
+//                return RedirectToAction("Index", "Home");
+//            }
+//            else
+//            {
+
+//                TempData["SignUpError"] = "Sign up failed. Please try again.";
+//                return RedirectToAction("SignUp");
+//            }
+//        }
+
+//        [HttpGet]
+//        public ActionResult SignUp()
+//        {
+//            return View();
+//        }
+//    }
+//}
+
+
+using Microsoft.AspNetCore.Mvc;
 using WebApplication3.Models;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication3.Controllers
 {
     public class UserControllers : Controller
     {
-       public Table_1 usrtbl = new Table_1();
+        private readonly ILogger<UserControllers> _logger;
 
-        [HttpPost]
-
-        public ActionResult About(Table_1 Users)
+        public UserControllers(ILogger<UserControllers> logger)
         {
-            var result = usrtbl.insert_User(Users);
-            return RedirectToAction("Index", "Home");
-
+            _logger = logger;
         }
-        [HttpPost]
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult SignUp(Table_1 user)
         {
-            return View(usrtbl);
+            _logger.LogInformation("Received sign-up request with user data: {@user}", user);
+
+            if (ModelState.IsValid)
+            {
+                var usrtbl = new Table_1();
+                var result = usrtbl.InsertUser(user);
+                if (result > 0)
+                {
+                    TempData["SignUpSuccess"] = "You have signed up successfully!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["SignUpError"] = "Sign up failed. Please try again.";
+                }
+            }
+            else
+            {
+                TempData["SignUpError"] = "Invalid data. Please check the input and try again.";
+            }
+
+            return RedirectToAction("SignUp");
+        }
+
+        [HttpGet]
+        public ActionResult SignUp()
+        {
+            return View();
         }
     }
 }
+
+
