@@ -5,6 +5,7 @@
     var userID = ViewData["UserID"];
     var products = ViewData["Products"] as List<WebApplication3.Models.ProductTable>;
     var signUpSuccess = ViewData["SignUpSuccess"];
+    var LoginSuccess = ViewData["LoginSuccess"];
 }
 
 <div class="text-center">
@@ -28,16 +29,45 @@
     </div>
 </section>
 
-@if (userID != null)
+ @if (LoginSuccess != null)
 {
-    <p>User ID: @userID</p>
-}
-else
-{
-    <p>User has not logged in.</p>
+    <div class="alert alert-success">
+        @LoginSuccess
+    </div>
 }
 
 <h2>All Products</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Availability</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in (List<WebApplication3.Models.ProductTable>)ViewData["Products"])
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Category</td>
+                <td>@product.Availability</td>
+                <td>
+                    <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
+                        <input type="hidden" name="userID" value="@ViewData["UserID"]" />
+                        <input type="hidden" name="productID" value="@product.ProductID" />
+                        <button type="submit">Place Order</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* <h2>All Products</h2>
 
 <table class="table">
     <thead>
@@ -67,7 +97,7 @@ else
             </tr>
         }
     </tbody>
-</table>
+</table> *@
 
 
 

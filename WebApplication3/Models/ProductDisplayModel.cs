@@ -11,7 +11,7 @@ namespace WebApplication3.Models
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public decimal ProductPrice { get; set; }
-        public string ProductCategory { get; set; }
+        public string ProductCatergory { get; set; }
         public bool ProductAvailability { get; set; }
 
         public ProductDisplayModel() { }
@@ -21,7 +21,7 @@ namespace WebApplication3.Models
             ProductID = id;
             ProductName = name;
             ProductPrice = price;
-            ProductCategory = category;
+            ProductCatergory = category;
             ProductAvailability = availability;
         }
 
@@ -42,7 +42,7 @@ namespace WebApplication3.Models
                     product.ProductID = Convert.ToInt32(reader["ID"]);
                     product.ProductName = Convert.ToString(reader["Name"]);
                     product.ProductPrice = Convert.ToDecimal(reader["Price"]);
-                    product.ProductCategory = Convert.ToString(reader["Catergory"]);
+                    product.ProductCatergory = Convert.ToString(reader["Catergory"]);
                     product.ProductAvailability = Convert.ToBoolean(reader["Availability"]);
                     products.Add(product);
                 }

@@ -26,6 +26,7 @@ namespace WebApplication3.Controllers
             ViewData["Products"] = products;
             ViewData["UserID"] = userID;
             ViewData["SignUpSuccess"] = TempData["SignUpSuccess"];
+            ViewData["LoginSuccess"] = TempData["LoginSuccess"];
 
             return View();
         }
