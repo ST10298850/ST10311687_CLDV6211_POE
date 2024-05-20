@@ -19,7 +19,7 @@ namespace WebApplication3.Models
             {
                 using (SqlConnection con = new SqlConnection(con_string))
                 {
-                    string sql = "INSERT INTO Table_1 (userName, userSurname, userEmail, userPassword) VALUES (@Name, @Surname, @Email, @Password)";
+                    string sql = "INSERT INTO Table_1 (Name, Surname, Email, Password) VALUES (@Name, @Surname, @Email, @Password)";
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.Parameters.AddWithValue("@Name", user.Name ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Surname", user.Surname ?? (object)DBNull.Value);

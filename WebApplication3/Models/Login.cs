@@ -13,7 +13,7 @@ namespace WebApplication3.Models
             int userId = -1; // Default value if user is not found
             using (SqlConnection con = new SqlConnection(con_string))
             {
-                string sql = "SELECT userID FROM Table_1 WHERE userEmail = @Email AND userName = @Name";
+                string sql = "SELECT UserID FROM Table_1 WHERE Email = @Email AND Name = @Name";
                 SqlCommand cmd = new SqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@Email", email);
                 cmd.Parameters.AddWithValue("@Name", name);

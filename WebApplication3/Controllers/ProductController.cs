@@ -11,7 +11,7 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public ActionResult MyWork(ProductTable products)
         { 
-            var result2 = prodtbl1.insert_product(products);
+            var result2 = prodtbl1.insert_product(products);            
             return RedirectToAction("Index", "Home");
         }
 

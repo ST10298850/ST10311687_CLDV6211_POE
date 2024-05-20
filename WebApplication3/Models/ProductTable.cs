@@ -29,11 +29,11 @@ namespace WebApplication3.Models
 
             try
             {
-                string sql = "INSERT INTO ProductTable (productName, productPrice, productCategory, productAvailability) VALUES (@Name, @Price, @Category, @Availability)";
+                string sql = "INSERT INTO ProductTable (Name, Price, Catergory, Availability) VALUES (@Name, @Price, @Catergory, @Availability)";
                 SqlCommand cmd = new SqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@Name", p.Name);
                 cmd.Parameters.AddWithValue("@Price", p.Price);
-                cmd.Parameters.AddWithValue("@Category", p.Category);
+                cmd.Parameters.AddWithValue("@Catergory", p.Category);
                 cmd.Parameters.AddWithValue("@Availability", p.Availability);
                 con.Open();
                 int rowsAffected = cmd.ExecuteNonQuery();
@@ -64,11 +64,11 @@ namespace WebApplication3.Models
                 while (reader.Read())
                 {
                     ProductTable product = new ProductTable();
-                    product.ProductID = Convert.ToInt32(reader["productID"]);
-                    product.Name = reader["productName"].ToString();
-                    product.Price = reader["productPrice"].ToString();
-                    product.Category = reader["productCategory"].ToString();
-                    product.Availability = reader["productAvailability"].ToString();
+                    product.ProductID = Convert.ToInt32(reader["ID"]);
+                    product.Name = reader["Name"].ToString();
+                    product.Price = reader["Price"].ToString();
+                    product.Category = reader["Catergory"].ToString();
+                    product.Availability = reader["Availability"].ToString();
 
                     products.Add(product);
                 }
