@@ -1,39 +1,4 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using WebApplication3.Models;
-
-//namespace WebApplication3.Controllers
-//{
-//    public class UserControllers : Controller
-//    {
-//        public Table_1 usrtbl = new Table_1();
-
-//        [HttpPost]
-//        public ActionResult SignUp(Table_1 user)
-//        {
-//            var result = usrtbl.InsertUser(user);
-//            if (result > 0)
-//            {
-//                TempData["SignUpSuccess"] = "You have signed up successfully!";
-//                return RedirectToAction("Index", "Home");
-//            }
-//            else
-//            {
-
-//                TempData["SignUpError"] = "Sign up failed. Please try again.";
-//                return RedirectToAction("SignUp");
-//            }
-//        }
-
-//        [HttpGet]
-//        public ActionResult SignUp()
-//        {
-//            return View();
-//        }
-//    }
-//}
-
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication3.Models;
 using Microsoft.Extensions.Logging;
 

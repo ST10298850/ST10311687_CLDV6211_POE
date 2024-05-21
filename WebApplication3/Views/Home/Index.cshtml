@@ -10,13 +10,20 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core </a>.</p>
 </div>
 
 @if (signUpSuccess != null)
 {
     <div class="alert alert-success">
         @signUpSuccess
+    </div>
+}
+
+@if (LoginSuccess != null)
+{
+    <div class="alert alert-success">
+        @LoginSuccess
     </div>
 }
 
@@ -29,12 +36,19 @@
     </div>
 </section>
 
- @if (LoginSuccess != null)
+
+
+@if (ViewData["UserID"] != null)
 {
-    <div class="alert alert-success">
-        @LoginSuccess
-    </div>
+<a href="@Url.Action("ViewTransactions", "Transaction", new { userID = ViewData["UserID"] })" class="btn btn-primary">View My Transactions</a>
 }
+else
+{
+<p>Please log in to view your transactions.</p>
+}
+
+
+
 
 <h2>All Products</h2>
 <table class="table">
@@ -67,37 +81,7 @@
     </tbody>
 </table>
 
-@* <h2>All Products</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Availability</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in products)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>@product.Category</td>
-                <td>@product.Availability</td>
-                <td>
-                    <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
-                        <input type="hidden" name="userID" value="@userID" />
-                        <input type="hidden" name="productID" value="@product" />
-                        <button type="submit">Place Order</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@
 
 
 

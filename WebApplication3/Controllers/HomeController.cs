@@ -22,6 +22,7 @@ namespace WebApplication3.Controllers
             List<ProductTable> products = ProductTable.GetAllProducts();
 
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            
 
             ViewData["Products"] = products;
             ViewData["UserID"] = userID;
@@ -51,6 +52,11 @@ namespace WebApplication3.Controllers
         }
 
         public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        public IActionResult Transactions()
         {
             return View();
         }

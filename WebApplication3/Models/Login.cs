@@ -7,16 +7,18 @@ namespace WebApplication3.Models
     {
         public static string con_string = "Server=tcp:st10311687server.database.windows.net,1433;Initial Catalog=ST10311687Database;Persist Security Info=False;User ID=LeeJames;Password=Stormy@16;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
+        public string Password { get; set; }
+        public string Email { get; set; }
 
-        public int SelectUser(string email, string name)
+        public int SelectUser(LoginModel loginModel)
         {
             int userId = -1; // Default value if user is not found
             using (SqlConnection con = new SqlConnection(con_string))
             {
-                string sql = "SELECT UserID FROM Table_1 WHERE Email = @Email AND Name = @Name";
+                string sql = "SELECT UserID FROM Table_1 WHERE Email = @Email AND Password = @Password";
                 SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.Parameters.AddWithValue("@Email", loginModel.Email);
+                cmd.Parameters.AddWithValue("@Password", loginModel.Password);
                 try
                 {
                     con.Open();

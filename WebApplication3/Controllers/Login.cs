@@ -14,16 +14,17 @@ namespace WebApplication3.Controllers
         }
 
         [HttpPost]
-        public ActionResult Privacy(string email, string name)
+        public ActionResult Login(LoginModel loginModel)
         {
-            var loginModel = new LoginModel();
-            int userID = loginModel.SelectUser(email, name);
+            
+            int userID = loginModel.SelectUser(loginModel);
             if (userID != -1)
             {
                 HttpContext.Session.SetInt32("UserID", userID);
                 // User found, proceed with login logic (e.g., set authentication cookie)
                 // For demonstration, redirecting to a dummy page
-                return RedirectToAction("Index", "Home", new { userID = userID });
+                TempData["LoginSuccess"] = "You have logged in successfully!";
+                return RedirectToAction("Index", "Home", new { userID });
             }
             else
             {

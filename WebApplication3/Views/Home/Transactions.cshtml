@@ -1,0 +1,34 @@
+﻿@model List<WebApplication3.Models.TransactionViewModel>
+
+@{
+    ViewData["Title"] = "View Transactions";
+}
+
+<h2>Previous Transactions</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No transactions found.</p>
+}
+else
+{
+    <form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model)
+            {               
+                <tr>
+                    <td>@transaction.ProductName</td>
+                    <td>@transaction.ProductPrice.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </form>
+}
