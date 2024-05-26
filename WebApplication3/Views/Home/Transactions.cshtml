@@ -1,4 +1,4 @@
-﻿@model List<WebApplication3.Models.TransactionViewModel>
+﻿@* @model List<WebApplication3.Models.TransactionViewModel>
 
 @{
     ViewData["Title"] = "View Transactions";
@@ -8,27 +8,71 @@
 
 @if (Model == null || !Model.Any())
 {
-    <p>No transactions found.</p>
-}
-else
-{
-    <form>
     <table class="table">
         <thead>
             <tr>
+                <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Product Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var transaction in Model)
-            {               
+            {
                 <tr>
+                    <td>@transaction.ProductID</td>
                     <td>@transaction.ProductName</td>
-                    <td>@transaction.ProductPrice.ToString("C")</td>
+                    <td>@transaction.ProductPrice</td>
+                    <td>@transaction.Quantity</td>
+                    <td>@transaction.Total</td>
                 </tr>
             }
         </tbody>
     </table>
-    </form>
+    
+}
+else
+{
+    <p>No transactions found.</p>
+} *@
+
+@model List<WebApplication3.Models.TransactionViewModel>
+
+@{
+    ViewData["Title"] = "View Transactions";
+}
+
+<h2>Previous Transactions</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>@transaction.ProductID</td>
+                    <td>@transaction.ProductName</td>
+                    <td>@transaction.ProductPrice</td>
+                    <td>@transaction.Quantity</td>
+                    <td>@transaction.Total</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No transactions found.</p>
 }

@@ -27,6 +27,8 @@
     </div>
 }
 
+
+
 <img src="~/Picture/coverhandcraft.jpeg" width="1300" />
 
 <section class="mission">
@@ -36,19 +38,14 @@
     </div>
 </section>
 
-
-
 @if (ViewData["UserID"] != null)
 {
-<a href="@Url.Action("ViewTransactions", "Transaction", new { userID = ViewData["UserID"] })" class="btn btn-primary">View My Transactions</a>
+    <a href="@Url.Action("ViewTransactions", "Transaction", new { userID = ViewData["UserID"] })" class="btn btn-primary">View My Transactions</a>
 }
 else
 {
-<p>Please log in to view your transactions.</p>
+    <p>Please log in to view your transactions.</p>
 }
-
-
-
 
 <h2>All Products</h2>
 <table class="table">
@@ -58,28 +55,55 @@ else
             <th>Price</th>
             <th>Category</th>
             <th>Availability</th>
+            <th>Quantity</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in (List<WebApplication3.Models.ProductTable>)ViewData["Products"])
+        @if (products != null)
         {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>@product.Category</td>
-                <td>@product.Availability</td>
-                <td>
-                    <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
-                        <input type="hidden" name="userID" value="@ViewData["UserID"]" />
-                        <input type="hidden" name="productID" value="@product.ProductID" />
-                        <button type="submit">Place Order</button>
-                    </form>
-                </td>
-            </tr>
+            foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>R @product.Price</td>
+                    <td>@product.Category</td>
+                    <td>@product.Availability</td>
+                    <td>
+                        <input type="number" id="quantity_@product.ProductID" name="quantity" min="1" value="1" onchange="updateQuantity(@product.ProductID)" />
+                    </td>
+                    <td>
+                        @if (ViewData["UserID"] != null)
+                        {
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                <input type="hidden" name="productID" value="@product.ProductID" />
+                                <input type="hidden" id="hidden_quantity_@product.ProductID" name="quantity" value="1" />
+                                <button type="submit" class="btn btn-success">Add to Cart</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-controller="Home" asp-action="Login" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-success">Login to place order</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
+
+
+@section Scripts {
+    <script>
+        function updateQuantity(productId) {
+            var quantity = document.getElementById("quantity_" + productId).value;
+            document.getElementById("hidden_quantity_" + productId).value = quantity;
+        
+        }
+    </script>
+}
 
 
 

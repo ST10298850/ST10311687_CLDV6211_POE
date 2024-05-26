@@ -1,0 +1,61 @@
+﻿@model List<WebApplication3.Models.CartModel>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+    var cartItems = ViewData["CartItem"] as List<WebApplication3.Models.CartModel>;
+    decimal total = 0;
+    if (cartItems != null)
+    {
+        total = cartItems.Sum(item => item.ProductPrice * item.Quantity);
+    }
+}
+
+<h2>Shopping Cart</h2>
+
+@if (cartItems == null || !cartItems.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in cartItems)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@item.ProductName</td>
+                    <td>R @item.ProductPrice</td>
+                    <td>@item.Quantity</td>
+                    <td>R @(item.ProductPrice * item.Quantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Total: @total.ToString("C", new System.Globalization.CultureInfo("en-ZA"))</h3>
+
+    <div class="d-flex justify-content-between">
+        @using (Html.BeginForm("ClearCart", "Cart", FormMethod.Post))
+        {
+            <input type="submit" value="Clear Cart" class="btn btn-danger" />
+        }
+
+        
+            <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
+                <input type="submit" value="Proceed to Checkout" class="btn btn-success" />
+            </form>
+            
+        
+    </div>
+}
+

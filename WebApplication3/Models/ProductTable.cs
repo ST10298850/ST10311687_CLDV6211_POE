@@ -15,13 +15,13 @@ namespace WebApplication3.Models
 
         public int InsertProduct(ProductTable p)
         {
-            string sql = "INSERT INTO ProductTable (Name, Price, Catergory, Availability) VALUES (@Name, @Price, @Catergory, @Availability)";
+            string sql = "INSERT INTO ProductTable (Name, Price, Category, Availability) VALUES (@Name, @Price, @Category, @Availability)";
             using (SqlConnection con = new SqlConnection(con_string))
             {
                 SqlCommand cmd = new SqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@Name", p.Name);
                 cmd.Parameters.AddWithValue("@Price", p.Price);
-                cmd.Parameters.AddWithValue("@Catergory", p.Category);
+                cmd.Parameters.AddWithValue("@Category", p.Category);
                 cmd.Parameters.AddWithValue("@Availability", p.Availability);
                 con.Open();
                 int rowsAffected = cmd.ExecuteNonQuery();
@@ -45,7 +45,7 @@ namespace WebApplication3.Models
                         ProductID = Convert.ToInt32(reader["ID"]),
                         Name = reader["Name"].ToString(),
                         Price = reader["Price"].ToString(),
-                        Category = reader["Catergory"].ToString(),
+                        Category = reader["Category"].ToString(),
                         Availability = reader["Availability"].ToString()
                     };
                     products.Add(product);
