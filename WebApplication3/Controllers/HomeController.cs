@@ -58,8 +58,13 @@ namespace WebApplication3.Controllers
 
         public IActionResult Transactions()
         {
-            return View();
+
+
+            var transactions = new TransactionController();
+            var transactionList = transactions.ViewTransactions();
+            return View(transactionList);
         }
+
 
         public IActionResult Cart()
         {

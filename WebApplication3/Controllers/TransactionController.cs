@@ -161,17 +161,17 @@ namespace WebApplication3.Controllers
 {
     public class TransactionController : Controller
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TransactionController(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+        //public TransactionController(IHttpContextAccessor httpContextAccessor)
+        //{
+        //    _httpContextAccessor = httpContextAccessor;
+        //}
 
         [HttpPost]
         public ActionResult PlaceOrder(int productID, int quantity)
         {
-            int? userID = _httpContextAccessor.HttpContext?.Session?.GetInt32("UserID");
+            int? userID = HttpContext?.Session?.GetInt32("UserID");
 
             if (!userID.HasValue || userID.Value == 0)
             {
@@ -220,9 +220,18 @@ namespace WebApplication3.Controllers
                             cmd.ExecuteNonQuery();
                         }
                     }
+
+                    // Clear the cart after placing the order
+                    string deleteCartSql = "DELETE FROM Cart WHERE UserID = @UserID";
+                    using (SqlCommand cmd = new SqlCommand(deleteCartSql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", userID);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
                 return RedirectToAction("Transactions", "Home");
+                //return ViewTransactions();
             }
             catch (Exception ex)
             {
@@ -238,19 +247,15 @@ namespace WebApplication3.Controllers
         }
 
         [HttpGet]
-        public ActionResult ViewTransactions()
+        public List<TransactionViewModel> ViewTransactions()
         {
-            int? userID = _httpContextAccessor.HttpContext?.Session?.GetInt32("UserID");
+            int? userID = HttpContext?.Session?.GetInt32("UserID");
 
-            if (!userID.HasValue || userID.Value == 0)
+            if (!userID.HasValue)
             {
-                var errorModel = new ErrorViewModel
-                {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                    Message = "Invalid user ID.",
-                    Exception = new ArgumentNullException(nameof(userID))
-                };
-                return View("Error", errorModel);
+                // Handle the case when userID is null
+                // For example, you can throw an exception
+                throw new ArgumentNullException(nameof(userID), "User ID is null. The user might not be logged in.");
             }
 
             List<TransactionViewModel> transactions = new List<TransactionViewModel>();
@@ -282,20 +287,14 @@ namespace WebApplication3.Controllers
                 }
 
                 Console.WriteLine($"Retrieved {transactions.Count} transactions for user {userID.Value}");
+
+                return transactions;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                var errorModel = new ErrorViewModel
-                {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                    Message = ex.Message,
-                    Exception = ex
-                };
-                return View("Error", errorModel);
+                throw;
             }
-
-            return View("Transactions", transactions);
         }
     }
 }

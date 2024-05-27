@@ -24,7 +24,7 @@ namespace WebApplication3.Controllers
                 // User found, proceed with login logic (e.g., set authentication cookie)
                 // For demonstration, redirecting to a dummy page
                 TempData["LoginSuccess"] = "You have logged in successfully!";
-                return RedirectToAction("Index", "Home", new { userID });
+                return RedirectToAction("Index", "Home");
             }
             else
             {

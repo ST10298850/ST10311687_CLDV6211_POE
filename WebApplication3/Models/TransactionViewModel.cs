@@ -9,3 +9,4 @@
         public decimal Total => ProductPrice * Quantity;
     }
 }
+
