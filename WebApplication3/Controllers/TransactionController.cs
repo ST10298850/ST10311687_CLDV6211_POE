@@ -247,17 +247,11 @@ namespace WebApplication3.Controllers
         }
 
         [HttpGet]
-        public List<TransactionViewModel> ViewTransactions()
+        public List<TransactionViewModel> ViewTransactions(int? userID)
         {
-            int? userID = HttpContext?.Session?.GetInt32("UserID");
+           //int? userID = HttpContext?.Session?.GetInt32("UserID");
 
-            if (!userID.HasValue)
-            {
-                // Handle the case when userID is null
-                // For example, you can throw an exception
-                throw new ArgumentNullException(nameof(userID), "User ID is null. The user might not be logged in.");
-            }
-
+          
             List<TransactionViewModel> transactions = new List<TransactionViewModel>();
 
             try
@@ -268,7 +262,7 @@ namespace WebApplication3.Controllers
                     string sql = "SELECT tt.productID, pt.Name, pt.Price, tt.Quantity FROM transactionTable tt INNER JOIN ProductTable pt ON tt.productID = pt.ID WHERE tt.userID = @UserID";
                     using (SqlCommand cmd = new SqlCommand(sql, con))
                     {
-                        cmd.Parameters.AddWithValue("@UserID", userID.Value);
+                        cmd.Parameters.AddWithValue("@UserID", userID);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -285,9 +279,6 @@ namespace WebApplication3.Controllers
                         }
                     }
                 }
-
-                Console.WriteLine($"Retrieved {transactions.Count} transactions for user {userID.Value}");
-
                 return transactions;
             }
             catch (Exception ex)

@@ -58,11 +58,15 @@ namespace WebApplication3.Controllers
 
         public IActionResult Transactions()
         {
-
+            int? userID = HttpContext?.Session?.GetInt32("UserID");
+            if (!userID.HasValue)
+            {
+                return View("Index", "Home");
+            }
 
             var transactions = new TransactionController();
-            var transactionList = transactions.ViewTransactions();
-            return View(transactionList);
+            var transactionList = transactions.ViewTransactions(userID);
+            return View("Transactions", transactionList);
         }
 
 
